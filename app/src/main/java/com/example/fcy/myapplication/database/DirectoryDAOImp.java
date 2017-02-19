@@ -84,6 +84,10 @@ public class DirectoryDAOImp implements DirectoryDAO {
         return exists;
     }
 
+    public synchronized void upGrade(){
+        mHelper.onUpgrade(mHelper.getWritableDatabase(),0,1);
+    }
+
 
 
 }

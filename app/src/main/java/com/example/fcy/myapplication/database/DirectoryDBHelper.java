@@ -40,4 +40,5 @@ public class DirectoryDBHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_DROP);
         db.execSQL(SQL_CREATE);
     }
+
 }
