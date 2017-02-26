@@ -50,9 +50,14 @@ public class DirectoryInfo {
         switch (m_file_type) {
             case 0: return R.drawable.document;
             case 1: return R.drawable.document;
-            case 2: return R.drawable.video;
+            //case 2: return R.drawable.video;
             default: return R.drawable.document;
         }
+    }
+
+    public void calculateIcon()
+    {
+        this.m_iconName = calIconName(m_file_type);
     }
 
     public int getM_fileId() {

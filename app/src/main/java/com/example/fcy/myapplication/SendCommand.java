@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import okhttp3.Call;
@@ -33,9 +35,12 @@ import com.google.gson.reflect.TypeToken;
 public class SendCommand implements Runnable {
     private int m_command;
     private Handler m_handler;
+    private int id = 0;
+    private String m_fileName = "";
     private BufferedReader in = null;
     private PrintWriter out = null;
     private HttpURLConnection urlConnection = null;
+
     InputStream inputStream = null;
 
     public static final String TAG = "MainActivity";
@@ -44,6 +49,13 @@ public class SendCommand implements Runnable {
     public SendCommand(int m_command, Handler handler) {
         this.m_command = m_command;
         this.m_handler = handler;
+    }
+
+    public SendCommand(int m_command, Handler handler,int id,String fileName) {
+        this.m_command = m_command;
+        this.m_handler = handler;
+        this.id = id;
+        this.m_fileName = fileName;
     }
 
     @Override
@@ -104,7 +116,10 @@ public class SendCommand implements Runnable {
                 break;
             }
             case 1: {
-                DirectoryInfo newDocument = new DirectoryInfo(1,"bbb",0,0,0,"2017-2-18","http://www.google.com","djhfkdjfo");
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+                Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+                String str = formatter.format(curDate);
+                DirectoryInfo newDocument = new DirectoryInfo(0,m_fileName,id,0,0,str,"","");
                 Gson gson = new Gson();
                 String result = gson.toJson(newDocument);
                 System.out.println(result);

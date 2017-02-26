@@ -74,6 +74,28 @@ public class DirectoryDAOImp implements DirectoryDAO {
     }
 
     @Override
+    public DirectoryInfo getDirectoryById(int m_fileId) {
+        SQLiteDatabase db = mHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from directory_info where m_fileId = ?", new String[]{m_fileId+""});
+        ArrayList<DirectoryInfo> list = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            DirectoryInfo directoryInfo = new DirectoryInfo();
+            directoryInfo.setM_fileId(cursor.getInt(cursor.getColumnIndex("m_fileId")));
+            directoryInfo.setM_fileName(cursor.getString(cursor.getColumnIndex("m_fileName")));
+            directoryInfo.setM_parentFileId(cursor.getInt(cursor.getColumnIndex("m_parentFileId")));
+            directoryInfo.setM_file_type(cursor.getInt(cursor.getColumnIndex("m_file_type")));
+            directoryInfo.setM_fileSize(cursor.getDouble(cursor.getColumnIndex("m_fileSize")));
+            directoryInfo.setM_fileModifyTime(cursor.getString(cursor.getColumnIndex("m_fileModifyTime")));
+            directoryInfo.setM_fileUrl(cursor.getString(cursor.getColumnIndex("m_fileUrl")));
+            directoryInfo.setM_fileMD5(cursor.getString(cursor.getColumnIndex("m_fileMD5")));
+            list.add(directoryInfo);
+        }
+        cursor.close();
+        db.close();
+        return list.get(0);
+    }
+
+    @Override
     public synchronized boolean isExist(int m_fileId) {
         SQLiteDatabase db = mHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from directory_info where m_fileId = ?",
@@ -84,8 +106,11 @@ public class DirectoryDAOImp implements DirectoryDAO {
         return exists;
     }
 
-    public synchronized void upGrade(){
-        mHelper.onUpgrade(mHelper.getWritableDatabase(),0,1);
+    public synchronized void deleteAll(){
+        SQLiteDatabase db = mHelper.getWritableDatabase();
+        db.execSQL("delete from directory_info");
+        db.execSQL("update sqlite_sequence SET seq = 0 where name ='directory_info'");
+        db.close();
     }
 
 

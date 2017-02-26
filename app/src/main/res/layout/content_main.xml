@@ -34,15 +34,23 @@
             android:layout_height="match_parent" />
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/main_list"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/id_swipe_ly"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:entries="@array/books"
-        android:divider="#f00"
-        android:dividerHeight="2px"
-        android:headerDividersEnabled="false">
-    </ListView>
+        android:layout_height="match_parent" >
+        <ListView
+            android:id="@+id/main_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/books"
+            android:divider="#f00"
+            android:dividerHeight="2px"
+            android:headerDividersEnabled="false">
+        </ListView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+
 
 
 </LinearLayout>

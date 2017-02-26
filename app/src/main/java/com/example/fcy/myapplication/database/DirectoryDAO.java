@@ -11,6 +11,8 @@ import java.util.List;
 public interface DirectoryDAO {
     public void insertDirectory(DirectoryInfo directoryInfo);
 
+    public DirectoryInfo getDirectoryById(int m_fileId);
+
 //    public void deleteDirectory(int m_fileId);
 //
 //    public void updateDirectory(DirectoryInfo directoryInfo);

@@ -32,11 +32,15 @@ public class UploadActivity extends AppCompatActivity{
     File currentParent;
     //记录当前路径下的所有文件的文件数组
     File[] currentFiles;
+    String documentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.upload_main);
+
+        Intent intent = getIntent();
+        documentId = intent.getExtras().getString("parentId");
 
         //获取列出全部文件发ListView
         listview = (ListView) findViewById(R.id.list);
@@ -47,7 +51,7 @@ public class UploadActivity extends AppCompatActivity{
         if (root.exists()) {
             currentParent = root;
             currentFiles = root.listFiles();//获取root目录下的所有文件
-            //使用当前陆慕下的全部文件，文件夹来填充ListView
+            //使用当前目录下的全部文件，文件夹来填充ListView
             inflateListView(currentFiles);
         }//if
         //为ListView的列表项的单击事件绑定监视器
@@ -59,7 +63,11 @@ public class UploadActivity extends AppCompatActivity{
                    /* Intent intent=new Intent(UploadActivity.this,OpenTheFile.class);
                     intent.putExtra("path",currentFiles[position].getPath());
                     startActivity(intent);*/
-                    Intent intent = OpenFile.openFile(currentFiles[position].getPath());
+                    Intent intent = new Intent(UploadActivity.this,UploadImpActivity.class);
+                    intent.putExtra("path",currentFiles[position].getAbsolutePath().toString());
+                    intent.putExtra("parentId",documentId);
+
+                    //Intent intent = OpenFile.openFile(currentFiles[position].getPath());
                     startActivity(intent);
                 } else {
                     File[] tmp = currentFiles[position].listFiles();//获取currentFiles[position]路径下的所有文件
@@ -76,14 +84,14 @@ public class UploadActivity extends AppCompatActivity{
                 }//else
             }//onItemClick
         });
-        Button parent = (Button) findViewById(R.id.parent);
-        parent.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                onbey();
-            }//onClick
-        });
+//        Button parent = (Button) findViewById(R.id.parent);
+//        parent.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                onbey();
+//            }//onClick
+//        });
     }//onCraete
 
     //返回上层菜单
@@ -129,11 +137,23 @@ public class UploadActivity extends AppCompatActivity{
             } catch (IOException e) {
                 e.printStackTrace();
             }//catch
-        }//esle
+        }//else
     }//inflateListView
 
     public void onBackPressed() {
-        onbey();
+        boolean ret = false;
+        try {
+            ret = currentParent.getParentFile().getCanonicalPath().equals("/");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        if(!ret) {
+            onbey();
+        }
+        else {
+            super.onBackPressed();
+        }
+
     }
 
 

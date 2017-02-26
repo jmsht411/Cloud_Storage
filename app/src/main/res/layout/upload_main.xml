@@ -21,11 +21,11 @@ tools:context="com.example.android.showfiles.MainActivity">
     android:divider="#000"
     android:dividerHeight="1px" />
 
-<Button
-    android:id="@+id/parent"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
-    android:layout_centerHorizontal="true"
-    android:background="@android:drawable/ic_menu_revert" />
+<!--<Button-->
+    <!--android:id="@+id/parent"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--android:background="@android:drawable/ic_menu_revert" />-->
 </RelativeLayout>
